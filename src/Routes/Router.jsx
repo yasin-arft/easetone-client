@@ -5,6 +5,16 @@ export const Router = createBrowserRouter([
   {
     path: '/',
     element: <Layouts/>,
-    children: []
+    children: [
+      {
+        path: '/'
+      },
+      {
+        path: '/register'
+      },
+      {
+        path: '/login'
+      }
+    ]
   }
 ]);
