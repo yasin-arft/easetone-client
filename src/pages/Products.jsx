@@ -1,5 +1,4 @@
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import {
   Card,
   CardContent,
@@ -12,14 +11,16 @@ import { format } from 'date-fns';
 import { Button } from "@/components/ui/button";
 import ProductsPagination from "@/components/pagination/productsPagination";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
+import { useState } from "react";
 
 const Products = () => {
+  const [currentPage, setCurrentPage] = useState(0);
   const axiosPublic = useAxiosPublic();
 
   const { data: products = [] } = useQuery({
-    queryKey: ['easetone', 'products'],
+    queryKey: ['easetone', 'products', currentPage],
     queryFn: async () => {
-      const res = await axiosPublic.get('/products');
+      const res = await axiosPublic.get(`/products?page=${currentPage}`);
 
       return res.data
     }
@@ -60,7 +61,7 @@ const Products = () => {
         }
       </div>
 
-      <ProductsPagination />
+      <ProductsPagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
     </section>
   );
 };
