@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/card"
 import { format } from 'date-fns';
 import { Button } from "@/components/ui/button";
+import ProductsPagination from "@/components/pagination/productsPagination";
 
 const Products = () => {
   const { data: products = [] } = useQuery({
@@ -55,6 +56,8 @@ const Products = () => {
           })
         }
       </div>
+
+      <ProductsPagination />
     </section>
   );
 };
