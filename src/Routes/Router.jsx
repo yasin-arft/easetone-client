@@ -1,5 +1,5 @@
 import Layouts from "@/layouts/Layouts";
-import Products from "@/pages/Products";
+import Products from "@/pages/home/Products";
 import { createBrowserRouter } from "react-router-dom";
 
 export const Router = createBrowserRouter([
