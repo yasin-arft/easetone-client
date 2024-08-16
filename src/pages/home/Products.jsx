@@ -16,21 +16,23 @@ import ProductOptions from "./ProductOptions";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const [productsName, setProductsName] = useState('');
   const axiosPublic = useAxiosPublic();
 
   const { data: products = [] } = useQuery({
-    queryKey: ['easetone', 'products', currentPage],
+    queryKey: ['easetone', 'products', currentPage, productsName],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/products?page=${currentPage}`);
+      const res = await axiosPublic.get(`/products?page=${currentPage}&search=${productsName}`);
 
       return res.data
     }
   });
 
+
   return (
     <section>
       <h2 className="text-2xl font-bold text-center my-3">Our products</h2>
-      <ProductOptions />
+      <ProductOptions setProductsName={setProductsName} />
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-3">
         {
           products.map(product => {
@@ -62,7 +64,11 @@ const Products = () => {
         }
       </div>
 
-      <ProductsPagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      {
+        productsName === '' ?
+          '' :
+          <ProductsPagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      }
     </section>
   );
 };

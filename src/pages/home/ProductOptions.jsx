@@ -14,16 +14,15 @@ import {
 import { Input } from "@/components/ui/input"
 import { FaSearch, FaFilter, FaSort } from "react-icons/fa";
 
-const ProductOptions = () => {
+const ProductOptions = ({ setProductsName }) => {
   const form = useForm({
     defaultValues: {
-      brand: "",
+      productName: "",
     },
   });
 
   const onSubmit = (values) => {
-
-    console.log(values)
+    setProductsName(values.productName);
   }
 
   return (
@@ -32,7 +31,7 @@ const ProductOptions = () => {
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-2">
           <FormField
             control={form.control}
-            name="brand"
+            name="productName"
             render={({ field }) => (
               <FormItem>
                 <FormControl>

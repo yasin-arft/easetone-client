@@ -12,7 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 const ProductsPagination = ({ currentPage, setCurrentPage }) => {
   const axiosPublic = useAxiosPublic();
 
-  const { data, isLoading } = useQuery({
+  const { data=[], isLoading } = useQuery({
     queryKey: ['easetone', 'productsCount'],
     queryFn: async () => {
       const res = await axiosPublic.get('/products-count');
