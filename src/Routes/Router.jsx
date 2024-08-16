@@ -1,13 +1,15 @@
 import Layouts from "@/layouts/Layouts";
+import Products from "@/pages/Products";
 import { createBrowserRouter } from "react-router-dom";
 
 export const Router = createBrowserRouter([
   {
     path: '/',
-    element: <Layouts/>,
+    element: <Layouts />,
     children: [
       {
-        path: '/'
+        path: '/',
+        element: <Products />
       },
       {
         path: '/register'
