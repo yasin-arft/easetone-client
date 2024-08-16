@@ -25,16 +25,19 @@ const Products = () => {
   return (
     <section>
       <h2 className="text-2xl font-bold text-center my-3">Our products</h2>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-3">
         {
           products.map(product => {
             const { _id, name, image, description, brand, category, price, ratings, creationDate, } = product;
 
             return (
               <Card key={_id}>
+                <figure>
+                  <img src={image} alt={`${name} image`} />
+                </figure>
                 <CardHeader>
-                  <CardTitle className="text-2xl">{name}</CardTitle>
-                  <CardDescription>{description}</CardDescription>
+                  <CardTitle className="text-2xl line-clamp-1">{name}</CardTitle>
+                  <CardDescription className="line-clamp-2">{description}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
                   <p>{category}</p>
@@ -45,7 +48,7 @@ const Products = () => {
                   </p>
                 </CardContent>
                 <CardFooter className="block">
-                  <Button>View Product</Button>
+                  <Button className="w-full">View Details</Button>
                 </CardFooter>
               </Card>
             )
