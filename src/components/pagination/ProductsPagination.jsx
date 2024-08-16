@@ -6,16 +6,19 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
 
 const ProductsPagination = () => {
   const [currentPage, setCurrentPage] = useState(0);
+  const axiosPublic = useAxiosPublic();
+
   const { data, isLoading } = useQuery({
     queryKey: ['productsCount'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:5000/products-count');
+      const res = await axiosPublic.get('/products-count');
 
       return res.data;
     }

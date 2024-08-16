@@ -11,12 +11,15 @@ import {
 import { format } from 'date-fns';
 import { Button } from "@/components/ui/button";
 import ProductsPagination from "@/components/pagination/productsPagination";
+import useAxiosPublic from "@/hooks/useAxiosPublic";
 
 const Products = () => {
+  const axiosPublic = useAxiosPublic();
+
   const { data: products = [] } = useQuery({
     queryKey: ['easetone', 'products'],
     queryFn: async () => {
-      const res = await axios.get('http://localhost:5000/products');
+      const res = await axiosPublic.get('/products');
 
       return res.data
     }
