@@ -49,7 +49,7 @@ const Login = () => {
         setLoading(false);
       })
       .catch(() => {
-        toast.success('Unexpected error happened!');
+        toast.error('Unexpected error happened!');
         setLoading(false);
       });
   }
