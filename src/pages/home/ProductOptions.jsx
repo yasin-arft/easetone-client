@@ -15,7 +15,7 @@ import { ProductOptionsContext } from "@/contexts/ProductOptionsContext";
 
 
 const ProductOptions = () => {
-  const { setSearchedProducts } = useContext(ProductOptionsContext);
+  const { setSearchedProducts, sort, setSort } = useContext(ProductOptionsContext);
   const form = useForm({
     defaultValues: {
       productName: "",
@@ -24,7 +24,19 @@ const ProductOptions = () => {
 
   // search by form on submit handler
   const onSubmit = (values) => {
+    setSort('');
     setSearchedProducts(values.productName.trim());
+  }
+
+  // sort handler
+  const handleSort = () =>{
+    if (sort === '') {
+      setSort('asc');
+    } else if(sort === 'asc') {
+      setSort('dsc');
+    } else {
+      setSort('');
+    }
   }
 
   return (
@@ -56,7 +68,7 @@ const ProductOptions = () => {
         <Filter />
 
         {/* sort button */}
-        <Button size="sm">
+        <Button onClick={handleSort} size="sm">
           <FaSort />
         </Button>
       </div>

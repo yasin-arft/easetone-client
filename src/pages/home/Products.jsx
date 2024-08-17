@@ -22,12 +22,13 @@ const Products = () => {
   const [category, setCategory] = useState('');
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
+  const [sort, setSort] = useState('');
   const axiosPublic = useAxiosPublic();
 
-  console.log({brand, category, minPrice, maxPrice});
+  console.log({sort});
   
   const { data: products = [] } = useQuery({
-    queryKey: ['easetone', 'products', currentPage, searchedProducts, brand, category, minPrice, maxPrice],
+    queryKey: ['easetone', 'products', currentPage, searchedProducts, brand, category, minPrice, maxPrice, sort],
     queryFn: async () => {
       const res = await axiosPublic.get('/products', {
         params: {
@@ -36,7 +37,8 @@ const Products = () => {
           brand,
           category,
           minPrice,
-          maxPrice
+          maxPrice,
+          sort
         }
       });
 
@@ -45,7 +47,7 @@ const Products = () => {
   });
 
   // product option context values
-  const productOptions = { setCurrentPage, setSearchedProducts, setBrand, setCategory, setMinPrice, setMaxPrice };
+  const productOptions = { setCurrentPage, setSearchedProducts, setBrand, setCategory, setMinPrice, setMaxPrice, sort, setSort };
 
   return (
     <section>
