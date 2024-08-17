@@ -13,6 +13,7 @@ const Navbar = () => {
     logout()
       .then(() => {
         toast.success('Logged out successfully.');
+        navigate('/');
       })
       .catch(() => {
         toast.error('Unexpected error happened!');

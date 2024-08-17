@@ -14,6 +14,7 @@ import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { useState } from "react";
 import ProductOptions from "./ProductOptions";
 import { ProductOptionsContext } from "@/contexts/ProductOptionsContext";
+import ProductSkeleton from "@/components/skeleton/ProductSkeleton";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(0);
@@ -24,8 +25,8 @@ const Products = () => {
   const [maxPrice, setMaxPrice] = useState('');
   const [sort, setSort] = useState('');
   const axiosPublic = useAxiosPublic();
-  
-  const { data: products = [] } = useQuery({
+
+  const { data: products = [], isLoading } = useQuery({
     queryKey: ['easetone', 'products', currentPage, searchedProducts, brand, category, minPrice, maxPrice, sort],
     queryFn: async () => {
       const res = await axiosPublic.get('/products', {
@@ -58,6 +59,19 @@ const Products = () => {
 
       {/* product display */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-3">
+
+        {/* while loading display skeletion */}
+
+        {isLoading &&
+          <>
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+            <ProductSkeleton />
+          </>
+        }
+
+        {/* display product after load */}
         {
           products.map(product => {
             const { _id, name, image, description, brand, category, price, ratings, creationDate, } = product;
