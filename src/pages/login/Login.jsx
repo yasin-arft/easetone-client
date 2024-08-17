@@ -45,7 +45,7 @@ const Login = () => {
     loginUser(email, password)
       .then(() => {
         toast.success('Logged in Successfully.');
-        navigate('/');
+        navigate('/profile');
         setLoading(false);
       })
       .catch(() => {

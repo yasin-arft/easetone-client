@@ -51,11 +51,11 @@ const Register = () => {
         updateUserProfile(name)
           .then(() => {
             toast.success('Registered Successfully.');
-            navigate('/');
+            navigate('/profile');
             setLoading(false);
           })
           .catch(() => {
-            navigate('/');
+            navigate('/profile');
             setLoading(false);
           })
       })
