@@ -24,7 +24,7 @@ const ProductOptions = () => {
 
   // search by form on submit handler
   const onSubmit = (values) => {
-    setSearchedProducts(values.productName);
+    setSearchedProducts(values.productName.trim());
   }
 
   return (

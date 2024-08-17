@@ -18,25 +18,45 @@ import { ProductOptionsContext } from "@/contexts/ProductOptionsContext";
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const [searchedProducts, setSearchedProducts] = useState('');
+  const [brand, setBrand] = useState('');
+  const [category, setCategory] = useState('');
+  const [minPrice, setMinPrice] = useState('');
+  const [maxPrice, setMaxPrice] = useState('');
   const axiosPublic = useAxiosPublic();
 
+  console.log({brand, category, minPrice, maxPrice});
+  
   const { data: products = [] } = useQuery({
-    queryKey: ['easetone', 'products', currentPage, searchedProducts],
+    queryKey: ['easetone', 'products', currentPage, searchedProducts, brand, category, minPrice, maxPrice],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/products?page=${currentPage}&search=${searchedProducts}`);
+      const res = await axiosPublic.get('/products', {
+        params: {
+          page: currentPage,
+          search: searchedProducts,
+          brand,
+          category,
+          minPrice,
+          maxPrice
+        }
+      });
 
       return res.data
     }
   });
 
-  const productOptions = { setSearchedProducts }
+  // product option context values
+  const productOptions = { setCurrentPage, setSearchedProducts, setBrand, setCategory, setMinPrice, setMaxPrice };
 
   return (
     <section>
       <h2 className="text-2xl font-bold text-center my-3">Our products</h2>
+
+      {/* product options */}
       <ProductOptionsContext.Provider value={productOptions} >
         <ProductOptions />
       </ProductOptionsContext.Provider>
+
+      {/* product display */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-3">
         {
           products.map(product => {
@@ -52,7 +72,8 @@ const Products = () => {
                   <CardDescription className="line-clamp-2">{description}</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <p>{category}</p>
+                  <p>Category: {category}</p>
+                  <p>Brand: {brand}</p>
                   <p>Price: {price}</p>
                   <p>Ratings: {ratings}</p>
                   <p>
@@ -68,8 +89,9 @@ const Products = () => {
         }
       </div>
 
+      {/* pagination options */}
       {
-        searchedProducts === '' ?
+        searchedProducts !== '' ?
           '' :
           <ProductsPagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
       }
