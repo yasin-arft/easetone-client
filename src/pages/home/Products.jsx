@@ -13,26 +13,30 @@ import ProductsPagination from "@/components/pagination/productsPagination";
 import useAxiosPublic from "@/hooks/useAxiosPublic";
 import { useState } from "react";
 import ProductOptions from "./ProductOptions";
+import { ProductOptionsContext } from "@/contexts/ProductOptionsContext";
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(0);
-  const [productsName, setProductsName] = useState('');
+  const [searchedProducts, setSearchedProducts] = useState('');
   const axiosPublic = useAxiosPublic();
 
   const { data: products = [] } = useQuery({
-    queryKey: ['easetone', 'products', currentPage, productsName],
+    queryKey: ['easetone', 'products', currentPage, searchedProducts],
     queryFn: async () => {
-      const res = await axiosPublic.get(`/products?page=${currentPage}&search=${productsName}`);
+      const res = await axiosPublic.get(`/products?page=${currentPage}&search=${searchedProducts}`);
 
       return res.data
     }
   });
 
+  const productOptions = { setSearchedProducts }
 
   return (
     <section>
       <h2 className="text-2xl font-bold text-center my-3">Our products</h2>
-      <ProductOptions setProductsName={setProductsName} />
+      <ProductOptionsContext.Provider value={productOptions} >
+        <ProductOptions />
+      </ProductOptionsContext.Provider>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 p-3">
         {
           products.map(product => {
@@ -65,7 +69,7 @@ const Products = () => {
       </div>
 
       {
-        productsName === '' ?
+        searchedProducts === '' ?
           '' :
           <ProductsPagination currentPage={currentPage} setCurrentPage={setCurrentPage} />
       }

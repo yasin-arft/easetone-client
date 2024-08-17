@@ -10,9 +10,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { FaSearch, FaSort } from "react-icons/fa";
 import Filter from "./Filter";
+import { useContext } from "react";
+import { ProductOptionsContext } from "@/contexts/ProductOptionsContext";
 
 
-const ProductOptions = ({ setProductsName }) => {
+const ProductOptions = () => {
+  const { setSearchedProducts } = useContext(ProductOptionsContext);
   const form = useForm({
     defaultValues: {
       productName: "",
@@ -21,7 +24,7 @@ const ProductOptions = ({ setProductsName }) => {
 
   // search by form on submit handler
   const onSubmit = (values) => {
-    setProductsName(values.productName);
+    setSearchedProducts(values.productName);
   }
 
   return (
