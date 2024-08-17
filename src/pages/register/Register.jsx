@@ -10,9 +10,12 @@ import {
 import { Input } from "@/components/ui/input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { z } from "zod"
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import GoogleLogin from "@/shared/GoogleLogin"
 import { Button } from "@/components/ui/button"
+import { useContext } from "react"
+import { AuthContext } from "@/providers/AuthProvider"
+import toast from "react-hot-toast"
 
 const signUpSchema = z.object({
   name: z
@@ -28,19 +31,37 @@ const signUpSchema = z.object({
 })
 
 const Register = () => {
+  const { createUser, updateUserProfile, setLoading, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
       name: '',
-      phoneNumber: '',
-      email: ''
+      email: '',
+      password: ''
     }
   })
 
+  // register handler
   const handleRegister = async (data) => {
     const { name, email, password } = data;
-    console.log(name, email, password);
-    
+    createUser(email, password)
+      .then(() => {
+        updateUserProfile(name)
+          .then(() => {
+            toast.success('Registered Successfully.');
+            navigate('/');
+          })
+          .catch(() => {
+            navigate('/');
+            setLoading(false);
+          })
+      })
+      .catch(() => {
+        toast.success('Unexpected error happened!');
+        setLoading(false);
+      });
   }
 
   return (
@@ -93,6 +114,7 @@ const Register = () => {
                 <Button
                   type="submit"
                   className="disabled:bg-gray-500 w-full col-span-2"
+                  disabled={loading}
                 >
                   Register
                 </Button>
