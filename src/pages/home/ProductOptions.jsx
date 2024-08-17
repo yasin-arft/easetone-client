@@ -1,18 +1,16 @@
-// import { z } from "zod"
-// import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  // FormDescription,
   FormField,
   FormItem,
-  // FormLabel,
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { FaSearch, FaFilter, FaSort } from "react-icons/fa";
+import { FaSearch, FaSort } from "react-icons/fa";
+import Filter from "./Filter";
+
 
 const ProductOptions = ({ setProductsName }) => {
   const form = useForm({
@@ -21,12 +19,15 @@ const ProductOptions = ({ setProductsName }) => {
     },
   });
 
+  // search by form on submit handler
   const onSubmit = (values) => {
     setProductsName(values.productName);
   }
 
   return (
     <div className="flex justify-between gap-4">
+
+      {/* search by name form */}
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)} className="flex gap-2">
           <FormField
@@ -47,9 +48,11 @@ const ProductOptions = ({ setProductsName }) => {
         </form>
       </Form>
       <div className="flex gap-2">
-        <Button size="sm">
-          <FaFilter />
-        </Button>
+
+        {/* filter drawer */}
+        <Filter />
+
+        {/* sort button */}
         <Button size="sm">
           <FaSort />
         </Button>
