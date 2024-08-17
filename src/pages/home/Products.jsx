@@ -24,8 +24,6 @@ const Products = () => {
   const [maxPrice, setMaxPrice] = useState('');
   const [sort, setSort] = useState('');
   const axiosPublic = useAxiosPublic();
-
-  console.log({sort});
   
   const { data: products = [] } = useQuery({
     queryKey: ['easetone', 'products', currentPage, searchedProducts, brand, category, minPrice, maxPrice, sort],
