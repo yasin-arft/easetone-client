@@ -18,9 +18,6 @@ import { AuthContext } from "@/providers/AuthProvider"
 import toast from "react-hot-toast"
 
 const signUpSchema = z.object({
-  name: z
-    .string()
-    .min(1, { message: "This field has to be filled." }),
   email: z
     .string()
     .min(1, { message: "This field has to be filled." })
@@ -30,34 +27,26 @@ const signUpSchema = z.object({
     .min(6, { message: "Password must be at least 6 characters.", }),
 })
 
-const Register = () => {
-  const { createUser, updateUserProfile, setLoading, loading } = useContext(AuthContext);
+const Login = () => {
+  const { loginUser, setLoading, loading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const form = useForm({
     resolver: zodResolver(signUpSchema),
     defaultValues: {
-      name: '',
       email: '',
       password: ''
     }
   })
 
-  // login handler
-  const handleLogin = async (data) => {
+  // register handler
+  const handleRegister = async (data) => {
     const { name, email, password } = data;
-    createUser(email, password)
+    loginUser(email, password)
       .then(() => {
-        updateUserProfile(name)
-          .then(() => {
-            toast.success('Registered Successfully.');
-            navigate('/');
-            setLoading(false);
-          })
-          .catch(() => {
-            navigate('/');
-            setLoading(false);
-          })
+        toast.success('Logged in Successfully.');
+        navigate('/');
+        setLoading(false);
       })
       .catch(() => {
         toast.success('Unexpected error happened!');
@@ -72,20 +61,7 @@ const Register = () => {
           <div className="max-w-full mx-auto border p-4 rounded-xl">
             <h2 className="text-3xl text-center font-semibold mb-6">Register!</h2>
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(handleLogin)} className="space-y-3">
-                <FormField
-                  control={form.control}
-                  name="name"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Name</FormLabel>
-                      <FormControl>
-                        <Input type="text" placeholder="Type name" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+              <form onSubmit={form.handleSubmit(handleRegister)} className="space-y-3">
                 <FormField
                   control={form.control}
                   name="email"
@@ -117,7 +93,7 @@ const Register = () => {
                   className="disabled:bg-gray-500 w-full col-span-2"
                   disabled={loading}
                 >
-                  Register
+                  Login
                 </Button>
               </form>
             </Form>
@@ -128,11 +104,11 @@ const Register = () => {
             <span className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white px-2 font-semibold text-lg">Or</span>
           </div>
           <GoogleLogin />
-          <p className="text-center mt-5">Already have an account? <Link to={'/login'} className="underline text-primary">Login</Link></p>
+          <p className="text-center mt-5">Don&#39;t have an account? <Link to={'/register'} className="underline text-primary">Register</Link></p>
         </div>
       </div>
     </section>
   );
 };
 
-export default Register;
+export default Login;

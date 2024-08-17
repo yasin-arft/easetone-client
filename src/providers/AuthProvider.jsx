@@ -22,6 +22,17 @@ const AuthProvider = ({children}) => {
     })
   }
 
+  // login user
+  const loginUser = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  }
+
+  const googleSignIn = () => {
+    setLoading(true);
+    return signInWithPopup(auth, googleProvider);
+  }
+
   // observer
   useEffect(() => {
     const unSubscribe = onAuthStateChanged(auth, (user) => {
@@ -39,7 +50,9 @@ const AuthProvider = ({children}) => {
     loading,
     setLoading,
     createUser,
-    updateUserProfile
+    updateUserProfile,
+    loginUser,
+    googleSignIn
   };
 
   return (
