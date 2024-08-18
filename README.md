@@ -46,6 +46,7 @@ VITE_appId=
 
 <!-- *Server url* -->
 VITE_server_URL=
+```
 
 ### 4: Run the project
 ```
