@@ -1,3 +1,4 @@
+import Footer from '@/shared/Footer';
 import Navbar from '@/shared/Navbar';
 import React from 'react';
 import { Toaster } from 'react-hot-toast';
@@ -11,6 +12,7 @@ const Layouts = () => {
       <div className='container max-w-screen-xl mx-auto px-3'>
         <Outlet />
       </div>
+      <Footer />
     </>
   );
 };
